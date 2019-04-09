@@ -47,41 +47,8 @@ if minetest.get_modpath("farming") then
 	end
 end
 
-if minetest.get_modpath("farming") and farming.mod and farming.mod == "redo" then
+if minetest.get_modpath("farming") and farming.mod and (farming.mod == "redo" or farming.mod == "undo") then
 	-- farming redo uses recipes unfriendly with respect to automation. E.g. using the cutting board.
-	-- in the end, it's hard to automate a farm, since crops have to be processed individually.
-	-- here, we use the thresher to provide a universal device to deal with those
-	table.insert(recipes, { input = "farming:pumpkin_8",
-		                        output = {"farming:pumpkin_slice 5"} })
--- 	table.insert(recipes, { input = "farming:pumpkin",
--- 		                        output = {"farming:pumpkin_slice 5"} })
-	table.insert(recipes, { input = "farming:melon_8",
-		                        output = {"farming:melon_slice 5"} })
-	table.insert(recipes, { input = "farming:pineapple",
-		                        output = {"farming:pineapple_ring 6", "farming:pineapple_top"} })
-	table.insert(recipes, { input = "farming:garlic",
-		                        output = {"farming:garlic_clove 10"} })
-	table.insert(recipes, { input = "farming:pepper",
-		                        output = {"farming:peppercorn 2"} })
-
-	if minetest.get_modpath("cottages") and cottages.mod and cottages.mod == "linuxforks" then
-		-- work as a mechanized threshing floor from cottages
-		table.insert(recipes, { input = "farming:oat",
-		                        output = {"farming:seed_oat", "cottages:straw_mat"} })
-		table.insert(recipes, { input = "farming:rye",
-		                        output = {"farming:seed_rye", "cottages:straw_mat"} })
-	else
-		-- work in a less fancy and less efficient manner
-		table.insert(recipes, { input = "farming:oat 4",
-		                        output = {"farming:seed_oat 3", "default:dry_shrub 1"} })
-		table.insert(recipes, { input = "farming:rye 4",
-		                        output = {"farming:seed_rye 3", "default:dry_shrub 1"} })
-	end
-
-end
-
-if minetest.get_modpath("farming") and farming.mod and farming.mod == "undo" then
-	-- farming undo uses recipes unfriendly with respect to automation. E.g. using the cutting board.
 	-- in the end, it's hard to automate a farm, since crops have to be processed individually.
 	-- here, we use the thresher to provide a universal device to deal with those
 	table.insert(recipes, { input = "farming:pumpkin_8",
