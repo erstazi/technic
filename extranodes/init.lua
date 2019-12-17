@@ -18,6 +18,8 @@ dofile(path.."/plastic_block.lua")
 dofile(path.."/diamonds.lua")
 dofile(path.."/insulator_clips.lua")
 dofile(path.."/cottonseed_oil.lua")
+dofile(path.."/radiation_sign.lua")
+dofile(path.."/planting_block.lua")
 
 if minetest.get_modpath("ethereal") and minetest.get_modpath("flowers") then
 	dofile(path.."/antishroom.lua")
@@ -42,6 +44,7 @@ if minetest.get_modpath("pkarcs") then
 	pkarcs.register_node("technic:marble")
 	pkarcs.register_node("technic:marble_bricks")
 	pkarcs.register_node("technic:granite")
+	pkarcs.register_node("moreblocks:rubber_tree_planks")
 end
 
 if minetest.get_modpath("moreblocks") then

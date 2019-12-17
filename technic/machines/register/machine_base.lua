@@ -44,7 +44,7 @@ function technic.register_base_machine(data)
 	for k, v in pairs(groups) do active_groups[k] = v end
 
 	local formspec =
-		"invsize[8,9;]"..
+		"size[8,9;]"..
 		"list[current_name;src;"..(4-input_size)..",1;"..input_size..",1;]"..
 		"list[current_name;dst;5,1;2,2;]"..
 		"list[current_player;main;0,5;8,4;]"..
@@ -93,12 +93,27 @@ function technic.register_base_machine(data)
 			meta:set_int("src_time", meta:get_int("src_time") + round(data.speed*10))
 		end
 		while true do
+			
+			local result
+			
+			if typename == "cooking" then
+				-- heating takes precedence, if defined
+				result = technic.get_recipe("heating", inv:get_list("src"))
+				if not result then 
+					result = technic.get_recipe("cooking", inv:get_list("src"))
+				end
+			else
+				result = technic.get_recipe(typename, inv:get_list("src"))
+			end
+			
+			--[[
 			local result = technic.get_recipe(typename, inv:get_list("src"))
 			
 			-- If type is cooking, also try technic-specific alias, "heating":
 			if not result and typename == "cooking" then
 				result = technic.get_recipe("heating", inv:get_list("src"))
 			end
+			]]
 			
 			if not result then
 				technic.swap_node(pos, machine_node)

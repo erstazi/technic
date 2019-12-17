@@ -359,6 +359,14 @@ if minetest.get_modpath("ethereal") then
 				S("Grey Clay"))
 	end
 	
+	-- undo-specific items
+	if ethereal.mod and ethereal.mod == "undo" then
+		technic.cnc.register_all("ethereal:olive_wood",
+			{snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
+			{"olive_wood.png"},
+			S("Olive Wood"))
+	end
+	
 end
 
 
@@ -424,6 +432,13 @@ if minetest.get_modpath("moreblocks") then
 
 end
 
+if minetest.get_modpath("technic_worldgen") then
+	technic.cnc.register_all("moretrees:rubber_tree_planks",
+                {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
+                {"technic_rubber_tree_wood.png"},
+                S("Rubber Tree Planks"))
+end
+
 if minetest.get_modpath("pathv7") then
 	-- jungle wood already exists (and hence the CNC'd parts would be identical)
 	technic.cnc.register_all("pathv7:bridgewood",
@@ -446,7 +461,12 @@ if minetest.get_modpath("extranodes") then
                 S("Plastic Clean"))
 end
 
-
+if minetest.get_modpath("farming") and farming.mod and (farming.mod == "redo" or farming.mod == "undo") then
+	technic.cnc.register_all("farming:hemp_block",
+                {snappy = 1, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory=1},
+                {"farming_hemp_block.png"},
+                S("Hemp Block"))
+end
 
 if minetest.get_modpath("bakedclay") then
 	

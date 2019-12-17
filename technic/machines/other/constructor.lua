@@ -99,7 +99,8 @@ local function make_on(mark, length)
 
 		if node.name == "technic:constructor_mk"..mark.."_off" then
 			technic.swap_node(pos, "technic:constructor_mk"..mark.."_on")
-			nodeupdate(pos)
+			--nodeupdate(pos)
+			core.check_for_falling(pos)
 			for i = 1, length do
 				place_pos = vector.add(place_pos, dir)
 				local place_node = minetest.get_node(place_pos)
@@ -113,11 +114,18 @@ local function make_off(mark)
 	return function(pos, node)
 		if node.name == "technic:constructor_mk"..mark.."_on" then
 			technic.swap_node(pos,"technic:constructor_mk"..mark.."_off")
-			nodeupdate(pos)
+			--nodeupdate(pos)
+			core.check_for_falling(pos)
 		end
 	end
 end
 
+local function allow_inventory_put(pos, listname, index, stack, player)
+	if stack and minetest.get_item_group(stack:get_name(), "technic_constructor") == 1 then
+		return 0
+	end
+	return technic.machine_inventory_put(pos, listname, index, stack, player)
+end
 
 local function make_constructor(mark, length)
 	minetest.register_node("technic:constructor_mk"..mark.."_off", {
@@ -129,7 +137,8 @@ local function make_constructor(mark, length)
 			"technic_constructor_back.png",
 			"technic_constructor_front_off.png"},
 		paramtype2 = "facedir",
-		groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, mesecon = 2},
+		groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
+				mesecon = 2, technic_constructor = 1},
 		mesecons = {effector = {action_on = make_on(mark, length)}},
 		sounds = default.node_sound_stone_defaults(),
 		on_construct = function(pos)
@@ -160,7 +169,7 @@ local function make_constructor(mark, length)
 			end
 			return true
 		end,
-		allow_metadata_inventory_put = technic.machine_inventory_put,
+		allow_metadata_inventory_put = allow_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
 		on_rotate = screwdriver.rotate_simple
@@ -176,10 +185,10 @@ local function make_constructor(mark, length)
 		paramtype2 = "facedir",
 		drop = "technic:constructor_mk"..mark.."_off",
 		groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-			mesecon=2, not_in_creative_inventory=1},
+				mesecon=2, not_in_creative_inventory=1, technic_constructor=1},
 		mesecons= {effector = {action_off = make_off(mark)}},
 		sounds = default.node_sound_stone_defaults(),
-		allow_metadata_inventory_put = technic.machine_inventory_put,
+		allow_metadata_inventory_put = allow_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
 		on_rotate = false
